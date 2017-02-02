@@ -2,28 +2,20 @@
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
+#include <cassert>
 
 using namespace std;
 
 class Model {
   public:
-    void receiveInput(const float& firstNumber, const char& operator, const float& secondNumber)
+    void receiveInput(const float& firstNumber, const char& Operator, const float& secondNumber)
     {
         m_firstNumber = firstNumber;
-        m_operator = operator;
+        m_operator = Operator;
         m_secondNumber = secondNumber;
 
         if(m_operator == '+') {
             m_result = ( m_firstNumber + m_secondNumber );
-        }
-        else if(m_operator == '-') {
-            m_result = ( m_firstNumber - m_secondNumber );
-        }
-        else if(m_operator == '*') {
-            m_result = ( m_firstNumber * m_secondNumber );
-        }
-        else if(m_operator == '/') {
-            m_result = ( m_firstNumber / m_secondNumber );
         }
         else
         {
@@ -57,16 +49,26 @@ class Controller {
         float firstNumber, secondNumber;
         cout << "Enter 1st number: ";
         cin  >> firstNumber;//input;
-        char operator;
-        cout << "\nEnter an operator, choosing between '+' , '-' , '*' or '/')";
-        cin  >> operator;
-        cout << "\nEnter 2nd number: ";
+        char Operator;
+        cout << "Enter an operator, choosing '+' , '-' , '*' or '/')\n";
+        cin  >> Operator;
+        cout << "Enter 2nd number: ";
         cin  >> secondNumber;
-        model.receiveInput(firstNumber, operator, secondNumber);
+        model.receiveInput(firstNumber, Operator, secondNumber);
     }
 };
-
+#define USE_MODEL_VIEW_CONTROLLER
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Model      model;
+    View       view;
+    Controller controller;
+    float expectedValPlusOperator = 20; //  16 + 4
+    float actualVal;
+
+    controller.getAndSendUserInput(model); // send User Input *to* the Model
+    actualVal = model.getData();
+    assert( actualVal == expectedValPlusOperator );
+    view.displayData(model); // Display data *from* the model.
+
     return 0;
 }
