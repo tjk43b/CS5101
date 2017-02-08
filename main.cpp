@@ -3,18 +3,34 @@
 #include <iomanip>
 #include <cstdlib>
 #include <cassert>
+// #include "unitTest.cpp"
 
 using namespace std;
+class UnitTest {
+public:
+    void Unittest (const float& u_firstNumber, const char& u_operator,  float u_secondNumber) {
+        float result;
+        //currently switch statement for future unit test implementation
+        switch (u_operator) {
+            case '+' :
+                result = (u_firstNumber + u_secondNumber);
+                assert(result == (u_firstNumber + u_secondNumber));
+                break;
+        }
+    }
+};
 
 class Model {
-  public:
-    void receiveInput(const float& firstNumber, const char& Operator, const float& secondNumber)
+public:
+    void calc(const float& firstNumber, const char& Operator, const float& secondNumber)
     {
         m_firstNumber = firstNumber;
         m_operator = Operator;
         m_secondNumber = secondNumber;
+        UnitTest test;
 
         if(m_operator == '+') {
+            test.Unittest(m_firstNumber, m_operator, m_secondNumber);
             m_result = ( m_firstNumber + m_secondNumber );
         }
         else
@@ -27,7 +43,7 @@ class Model {
     {
         return m_result;
     }
-  private:
+private:
     float m_firstNumber;
     float m_secondNumber;
     char m_operator;
@@ -35,7 +51,7 @@ class Model {
 };
 
 class View {
-  public:
+public:
     void displayData(const Model& model)
     {
         cout << "Displaying result: " << fixed << setprecision(3) << model.getData() << "!\n" << endl;
@@ -43,31 +59,48 @@ class View {
 };
 
 class Controller {
-  public:
+public:
     void getAndSendUserInput(Model& model)
     {
         float firstNumber, secondNumber;
-        cout << "Enter 1st number: ";
-        cin  >> firstNumber;//input;
         char Operator;
-        cout << "Enter an operator, choosing '+' , '-' , '*' or '/')\n";
-        cin  >> Operator;
+        cout << "Enter 1st number: ";
+        cin  >> firstNumber;
+        do
+        {
+            cout << "Enter an operator, choosing '+' , '-' , '*' or '/')\n";
+            cin  >> Operator;
+        } while(!isOperator(Operator));
+
+        cout << endl;
         cout << "Enter 2nd number: ";
         cin  >> secondNumber;
-        model.receiveInput(firstNumber, Operator, secondNumber);
+        model.calc(firstNumber, Operator, secondNumber);
+    }
+
+    bool isOperator(const char& Operator)
+    {
+        if(Operator == '+'
+           || Operator == '-'
+           || Operator == '*'
+           || Operator == '/')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 };
-#define USE_MODEL_VIEW_CONTROLLER
+
+//#define USE_MODEL_VIEW_CONTROLLER
 int main() {
     Model      model;
     View       view;
     Controller controller;
-    float expectedValPlusOperator = 20; //  16 + 4
-    float actualVal;
 
     controller.getAndSendUserInput(model); // send User Input *to* the Model
-    actualVal = model.getData();
-    assert( actualVal == expectedValPlusOperator );
     view.displayData(model); // Display data *from* the model.
 
     return 0;
