@@ -10,11 +10,16 @@ class UnitTest {
 public:
     void Unittest (const float& u_firstNumber, const char& u_operator,  float u_secondNumber) {
         float result;
-        //currently switch statement for future unit test implementation
+
         switch (u_operator) {
             case '+' :
                 result = (u_firstNumber + u_secondNumber);
                 assert(result == (u_firstNumber + u_secondNumber));
+                break;
+
+            case '-' :
+                result = (u_firstNumber - u_secondNumber);
+                assert(result == (u_firstNumber - u_secondNumber));
                 break;
         }
     }
@@ -32,6 +37,10 @@ public:
         if(m_operator == '+') {
             test.Unittest(m_firstNumber, m_operator, m_secondNumber);
             m_result = ( m_firstNumber + m_secondNumber );
+        }
+        else if (m_operator == '-') {
+            test.Unittest(m_firstNumber, m_operator, m_secondNumber);
+            m_result = (m_firstNumber - m_secondNumber);
         }
         else
         {
