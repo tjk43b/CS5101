@@ -8,8 +8,10 @@
 using namespace std;
 class UnitTest {
 public:
-    void Unittest (const float& u_firstNumber, const char& u_operator,  float u_secondNumber) {
+    void Unittest (const float& u_firstNumber, const char& u_operator,  const float& u_secondNumber) {
         float result;
+        float firstNum = u_firstNumber;
+        float secondNum = u_secondNumber;
 
         switch (u_operator) {
             case '+' :
@@ -20,6 +22,13 @@ public:
             case '-' :
                 result = (u_firstNumber - u_secondNumber);
                 assert(result == (u_firstNumber - u_secondNumber));
+                break;
+
+            case '*' :
+                result = (firstNum * secondNum);
+                float mult = (u_firstNumber * u_secondNumber);
+
+                assert(result == mult);
                 break;
         }
     }
@@ -41,6 +50,10 @@ public:
         else if (m_operator == '-') {
             test.Unittest(m_firstNumber, m_operator, m_secondNumber);
             m_result = (m_firstNumber - m_secondNumber);
+        }
+        else if (m_operator == '*') {
+            test.Unittest(m_firstNumber, m_operator, m_secondNumber);
+            m_result = (m_firstNumber * m_secondNumber);
         }
         else
         {
@@ -84,6 +97,7 @@ public:
         cout << endl;
         cout << "Enter 2nd number: ";
         cin  >> secondNumber;
+        cout<<endl;
         model.calc(firstNumber, Operator, secondNumber);
     }
 
